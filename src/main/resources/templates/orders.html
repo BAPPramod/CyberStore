@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>My Orders - CyberStore</title>
+</head>
+<body>
+    <section>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>My Orders</h2>
+            <a th:href="@{/products}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left"></i> Back to Products
+            </a>
+        </div>
+        
+        <div th:if="${orders.empty}" class="alert alert-info">
+            You haven't placed any orders yet. <a th:href="@{/products}">Browse products</a> to start shopping.
+        </div>
+        
+        <div th:if="${!orders.empty}" class="accordion" id="ordersAccordion">
+            <div class="accordion-item" th:each="order, iterStat : ${orders}">
+                <h2 class="accordion-header" th:id="'heading-' + ${iterStat.count}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            th:data-bs-target="'#collapse-' + ${iterStat.count}"
+                            th:aria-expanded="${iterStat.first ? 'true' : 'false'}"
+                            th:aria-controls="'collapse-' + ${iterStat.count}">
+                        <div class="d-flex justify-content-between w-100 me-3">
+                            <span>
+                                <strong>Order #:</strong> <span th:text="${order.id}">123</span>
+                            </span>
+                            <span>
+                                <strong>Date:</strong> <span th:text="${#temporals.format(order.createdAt, 'dd-MM-yyyy HH:mm')}">01-01-2025</span>
+                            </span>
+                            <span>
+                                <strong>Total:</strong> <span th:text="${'$' + order.totalAmount}">$0.00</span>
+                            </span>
+                            <span class="badge" th:classappend="${order.status == 'COMPLETED' ? 'bg-success' : 'bg-warning'}"
+                                  th:text="${order.status}">Status</span>
+                        </div>
+                    </button>
+                </h2>
+                <div th:id="'collapse-' + ${iterStat.count}" class="accordion-collapse collapse" 
+                     th:classappend="${iterStat.first ? 'show' : ''}"
+                     th:aria-labelledby="'heading-' + ${iterStat.count}" data-bs-parent="#ordersAccordion">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item : ${order.items}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img th:src="${item.imageUrl}" alt="Product" class="me-3" width="50" height="50"
+                                                     onerror="this.src='/images/placeholder.jpg'">
+                                                <span th:text="${item.productName}">Product Name</span>
+                                            </div>
+                                        </td>
+                                        <td th:text="${'$' + item.price}">$0.00</td>
+                                        <td th:text="${item.quantity}">1</td>
+                                        <td th:text="${'$' + item.subtotal}">$0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
