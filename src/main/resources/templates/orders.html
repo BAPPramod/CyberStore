@@ -32,7 +32,7 @@
                                 <strong>Date:</strong> <span th:text="${#temporals.format(order.createdAt, 'dd-MM-yyyy HH:mm')}">01-01-2025</span>
                             </span>
                             <span>
-                                <strong>Total:</strong> <span th:text="${'$' + order.totalAmount}">$0.00</span>
+                                <strong>Total:</strong> <span th:text="${'€' + order.totalAmount}">€0.00</span>
                             </span>
                             <span class="badge" th:classappend="${order.status == 'COMPLETED' ? 'bg-success' : 'bg-warning'}"
                                   th:text="${order.status}">Status</span>
@@ -62,9 +62,9 @@
                                                 <span th:text="${item.productName}">Product Name</span>
                                             </div>
                                         </td>
-                                        <td th:text="${'$' + item.price}">$0.00</td>
+                                        <td th:text="${'€' + item.price}">€0.00</td>
                                         <td th:text="${item.quantity}">1</td>
-                                        <td th:text="${'$' + item.subtotal}">$0.00</td>
+                                        <td th:text="${'€' + item.subtotal}">€0.00</td>
                                     </tr>
                                 </tbody>
                             </table>

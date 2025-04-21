@@ -1,4 +1,4 @@
-package fi.haagahelia.cyberstore.config;
+package fi.haagahelia.cyberstore.config; 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +34,7 @@ public class SecurityConfig {
                                                         "/webjars/**", "/error")
                                                         .permitAll()
                                                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                         .requestMatchers("/products/delete/**").hasRole("ADMIN")
                                                         .requestMatchers("/cart/remove/**").authenticated()
                                                         .anyRequest().authenticated();

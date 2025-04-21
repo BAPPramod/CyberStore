@@ -39,7 +39,7 @@
                                         <span th:text="${item.productName}">Product Name</span>
                                     </div>
                                 </td>
-                                <td th:text="${'$' + item.price}">$0.00</td>
+                                <td th:text="${'€' + item.price}">€0.00</td>
                                 <td>
                                     <div class="input-group input-group-sm" style="width: 120px;">
                                         <button class="btn btn-outline-secondary quantity-btn" type="button" data-action="decrease"
@@ -54,7 +54,7 @@
                                         </button>
                                     </div>
                                 </td>
-                                <td th:text="${'$' + item.subtotal}">$0.00</td>
+                                <td th:text="${'€' + item.subtotal}">€0.00</td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-danger remove-item" 
                                             th:data-product-id="${item.productId}">
@@ -66,7 +66,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="3" class="text-end fw-bold">Total:</td>
-                                <td class="fw-bold" th:text="${'$' + cart.totalAmount}">$0.00</td>
+                                <td class="fw-bold" th:text="${'€' + cart.totalAmount}">€0.00</td>
                                 <td></td>
                             </tr>
                         </tfoot>

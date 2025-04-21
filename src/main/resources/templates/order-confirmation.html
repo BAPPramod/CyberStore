@@ -42,15 +42,15 @@
                                         <span th:text="${item.productName}">Product Name</span>
                                     </div>
                                 </td>
-                                <td th:text="${'$' + item.price}">$0.00</td>
+                                <td th:text="${'€' + item.price}">€0.00</td>
                                 <td th:text="${item.quantity}">1</td>
-                                <td th:text="${'$' + item.subtotal}">$0.00</td>
+                                <td th:text="${'€' + item.subtotal}">€0.00</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="3" class="text-end fw-bold">Total:</td>
-                                <td class="fw-bold" th:text="${'$' + cart.totalAmount}">$0.00</td>
+                                <td class="fw-bold" th:text="${'€' + cart.totalAmount}">€0.00</td>
                             </tr>
                         </tfoot>
                     </table>
