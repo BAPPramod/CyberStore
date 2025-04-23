@@ -4,7 +4,7 @@ A complete e-commerce application built with Spring Boot, MongoDB, Spring Securi
 
 ## Features
 
-- User authentication (login/signup)
+- User authentication (login/signup and login with Google)
 - Role-based access control (admin vs regular users)
 - Product management (CRUD operations)
 - Shopping cart functionality
@@ -20,6 +20,7 @@ A complete e-commerce application built with Spring Boot, MongoDB, Spring Securi
 - Bootstrap 5
 - jQuery
 - Lombok
+- Deployment: Heroku
 
 ## Prerequisites
 
