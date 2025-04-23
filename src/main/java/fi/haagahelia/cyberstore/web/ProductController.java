@@ -25,8 +25,15 @@ public class ProductController {
     @GetMapping("/products")
     public String showProducts(Model model, Authentication authentication) {
         model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("isAdmin", authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ADMIN")));
+
+        if (authentication != null) {
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+            model.addAttribute("isAdmin", isAdmin);
+        } else {
+            model.addAttribute("isAdmin", false);
+        }
+
         return "products";
     }
 

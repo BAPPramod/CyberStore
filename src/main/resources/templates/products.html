@@ -10,23 +10,21 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Products</h2>
             <!-- Only show Add Product button for ADMIN users -->
-            <div sec:authorize="hasRole('ADMIN')">
+            <div sec:authorize="hasAuthority('ROLE_ADMIN')">
                 <a th:href="@{/products/add}" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Add Product
                 </a>
             </div>
         </div>
         
-        <p sec:authorize="isAuthenticated()">Roles: <span sec:authentication="principal.authorities"></span></p>
-        <p sec:authorize="isAuthenticated()">Authenticated User: <span sec:authentication="principal.username"></span></p>
-        <p sec:authorize="isAuthenticated()">Authentication Object: <span sec:authentication="*"></span></p>
-        <p sec:authorize="isAuthenticated()">Spring Security Context: <span sec:authentication="*"></span></p>
-        <p sec:authorize="isAuthenticated()">Principal Object: <span sec:authentication="principal"></span></p>
-
-        <p sec:authorize="isAuthenticated()">I am logged in</p>
-        <p sec:authorize="hasRole('ADMIN')">I am admin</p>
-        <p sec:authorize="hasRole('USER')">I am user</p>
-
+        <!-- Debug information - Remove in production -->
+        <!-- <div class="alert alert-info">
+            <p>Authentication available: <span th:text="${#authentication != null}">false</span></p>
+            <div th:if="${#authentication != null}">
+                <p>Username: <span th:text="${#authentication.name}">Unknown</span></p>
+                <p>Authorities: <span th:text="${#authentication.authorities}">None</span></p>
+            </div>
+        </div> -->
         
         <div th:if="${products.empty}" class="alert alert-info">
             No products available.
@@ -47,7 +45,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <!-- Edit and Delete buttons only for ADMIN users -->
-                        <div sec:authorize="hasRole('ADMIN')">
+                        <div sec:authorize="hasAuthority('ROLE_ADMIN')">
                             <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
@@ -145,12 +143,6 @@
                             alert('Error adding product to cart');
                         }
                     });
-                });
-
-                // Refresh the page when the delete modal is closed
-                const deleteModalElement = document.getElementById('deleteModal');
-                deleteModalElement.addEventListener('hidden.bs.modal', function () {
-                    location.reload(); // Refresh the page
                 });
             });
         </script>

@@ -91,7 +91,6 @@
 
         <script>
             $(document).ready(function() {
-                // Handle quantity changes
                 $('.quantity-btn').click(function() {
                     const productId = $(this).data('product-id');
                     const action = $(this).data('action');
@@ -106,7 +105,6 @@
                     
                     quantityInput.val(quantity);
                     
-                    // Update cart item quantity
                     $.ajax({
                         url: '/cart/update/' + productId,
                         type: 'POST',
@@ -115,13 +113,11 @@
                             _csrf: $('input[name="_csrf"]').val()
                         },
                         success: function() {
-                            // Reload the page to reflect updated totals
                             location.reload();
                         }
                     });
                 });
                 
-                // Handle item removal
                 $('.remove-item').click(function() {
                     console.log("Remove button clicked"); // Debugging log
                     const productId = $(this).data('product-id');
@@ -135,7 +131,6 @@
                         },
                         success: function() {
                             console.log("Item removed successfully"); // Debugging log for success
-                            // Reload the page to reflect removed item
                             location.reload();
                         },
                         error: function(xhr) {

@@ -1,6 +1,7 @@
-package fi.haagahelia.cyberstore.config; 
+package fi.haagahelia.cyberstore.config;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,21 +22,25 @@ import fi.haagahelia.cyberstore.service.UserService;
 public class SecurityConfig {
 
         private final UserService userService;
+        private final PasswordEncoder passwordEncoder;
+
+        private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 System.out.println("Initializing SecurityFilterChain");
-                System.out.println("Configuring SecurityFilterChain");
                 http
                                 .authorizeHttpRequests(authz -> {
                                         System.out.println("Configuring authorization rules");
-                                        System.out.println("Authorizing requests");
                                         authz.requestMatchers("/", "/signup", "/css/**", "/js/**", "/images/**",
-                                                        "/webjars/**", "/error")
+                                                        "/webjars/**", "/error", "/login")
                                                         .permitAll()
-                                                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                                                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                                                        .requestMatchers("/products/delete/**").hasRole("ADMIN")
+                                                        .requestMatchers("/products/add", "/products/edit/**",
+                                                                        "/products/delete/**")
+                                                        .hasAuthority("ROLE_ADMIN")
+                                                        .requestMatchers("/products").permitAll()
                                                         .requestMatchers("/cart/remove/**").authenticated()
                                                         .anyRequest().authenticated();
                                 })
@@ -49,14 +54,14 @@ public class SecurityConfig {
                                                 .permitAll())
                                 .oauth2Login(oauth2 -> oauth2
                                                 .loginPage("/login")
+                                                .successHandler(oAuth2LoginSuccessHandler)
                                                 .defaultSuccessUrl("/products", true));
 
                 return http.build();
         }
 
         @Bean
-        public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder)
-                        throws Exception {
+        public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
                 return http.getSharedObject(AuthenticationManagerBuilder.class)
                                 .userDetailsService(userService)
                                 .passwordEncoder(passwordEncoder)

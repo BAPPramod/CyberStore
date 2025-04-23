@@ -32,7 +32,6 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner initData() {
         return args -> {
-            // Create admin user if it doesn't exist
             if (!userRepository.existsByUsername("admin")) {
                 User admin = new User();
                 admin.setUsername("admin");
@@ -44,7 +43,6 @@ public class DataInitializer {
                 System.out.println("Admin user created");
             }
 
-            // Create a regular user if it doesn't exist
             if (!userRepository.existsByUsername("user")) {
                 User user = new User();
                 user.setUsername("user");
@@ -56,7 +54,6 @@ public class DataInitializer {
                 System.out.println("Regular user created");
             }
 
-            // Add some products if the repository is empty
             if (productRepository.count() == 0) {
                 Product product1 = Product.builder()
                         .name("asus zenbook 14 oled touch (um3406)")
